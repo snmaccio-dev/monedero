@@ -10,13 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cuenta {
+<<<<<<< HEAD
   LocalDate hoy = LocalDate.now();
   private double saldo;
   private List<Movimiento> movimientos = new ArrayList<>();
+=======
+
+  private double saldo = 0;
+  private List<Movimiento> movimientos = new ArrayList<>();
+
+  public Cuenta() {
+    saldo = 0;
+  }
+
+>>>>>>> upstream/master
   public Cuenta(double montoInicial) {
     saldo = montoInicial;
   }
 
+<<<<<<< HEAD
   private static final int MAX_DEPOSITOS_DIARIOS = 3;
 
   public void poner(double cuanto) {
@@ -66,11 +78,36 @@ public class Cuenta {
 
   public void validarExtraccionDiaria(double cuanto, LocalDate fecha){
     var montoExtraidoHoy = getMontoExtraidoA(fecha);
+=======
+  public void poner(double cuanto) {
+    if (cuanto <= 0) {
+      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
+    }
+
+    if (getMovimientos().stream()
+        .filter(movimiento -> movimiento.fueDepositado(LocalDate.now()))
+        .count() >= 3) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
+    }
+
+    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+  }
+
+  public void sacar(double cuanto) {
+    if (cuanto <= 0) {
+      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
+    }
+    if (getSaldo() - cuanto < 0) {
+      throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
+    }
+    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+>>>>>>> upstream/master
     var limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException(
           "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
     }
+<<<<<<< HEAD
   }
 
   public void registrarExtraccion(LocalDate fecha, double cuanto){
@@ -79,6 +116,9 @@ public class Cuenta {
 
   public static Movimiento extraccion(LocalDate fecha, double cuanto) {
     return new Movimiento(LocalDate.now(), cuanto, false);
+=======
+    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+>>>>>>> upstream/master
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
@@ -110,6 +150,7 @@ public class Cuenta {
   }
 
 }
+<<<<<<< HEAD
 
 /*
 
@@ -132,3 +173,5 @@ El método valida monto, valida lo que se puede sacar,
 y la cantidad que se puede extraer.
 
 */
+=======
+>>>>>>> upstream/master

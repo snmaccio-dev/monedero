@@ -21,10 +21,14 @@ public class MonederoTest {
   @Test
   @DisplayName("Es posible poner $1500 en una cuenta vacía")
   void Poner() {
+<<<<<<< HEAD
 
     cuenta.poner(1500);
     assertEquals(1500, cuenta.getSaldo(), 0.01);
 
+=======
+    cuenta.poner(1500);
+>>>>>>> upstream/master
   }
 
   @Test
@@ -39,6 +43,7 @@ public class MonederoTest {
     cuenta.poner(1500);
     cuenta.poner(456);
     cuenta.poner(1900);
+<<<<<<< HEAD
     assertEquals(3856, cuenta.getSaldo(), 0.01);
   }
 
@@ -82,3 +87,43 @@ public class MonederoTest {
     assertThrows(MontoNegativoException.class,
         () -> cuenta.sacar(-500));
   }
+=======
+  }
+
+  @Test
+  @DisplayName("No es posible superar la máxima cantidad de depositos diarios")
+  void MasDeTresDepositos() {
+    assertThrows(MaximaCantidadDepositosException.class, () -> {
+      cuenta.poner(1500);
+      cuenta.poner(456);
+      cuenta.poner(1900);
+      cuenta.poner(245);
+    });
+  }
+
+  @Test
+  @DisplayName("No es posible extraer más que el saldo disponible")
+  void ExtraerMasQueElSaldo() {
+    assertThrows(SaldoMenorException.class, () -> {
+      cuenta.setSaldo(90);
+      cuenta.sacar(1001);
+    });
+  }
+
+  @Test
+  @DisplayName("No es posible extraer más que el límite diario")
+  void ExtraerMasDe1000() {
+    assertThrows(MaximoExtraccionDiarioException.class, () -> {
+      cuenta.setSaldo(5000);
+      cuenta.sacar(1001);
+    });
+  }
+
+  @Test
+  @DisplayName("No es posible extraer un monto negativo")
+  void ExtraerMontoNegativo() {
+    assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
+  }
+
+}
+>>>>>>> upstream/master
