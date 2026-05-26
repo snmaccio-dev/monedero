@@ -26,7 +26,7 @@ public class Cuenta {
   }
 
   private void validarMonto(double cuanto) {
-    if (cuanto <= 0) {
+    if(cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
   }
@@ -36,7 +36,7 @@ public class Cuenta {
         .filter(movimiento -> movimiento.fueDepositado(fecha))
         .count();
 
-    if (depositosHoy >= MAX_DEPOSITOS_DIARIOS) {
+    if(depositosHoy >= MAX_DEPOSITOS_DIARIOS) {
       throw new MaximaCantidadDepositosException(
           "Ya excedio los " + MAX_DEPOSITOS_DIARIOS + " depositos diarios"
       );
@@ -59,7 +59,7 @@ public class Cuenta {
   }
 
   public void validarExtraccion(double cuanto){
-    if (getSaldo() - cuanto < 0) {
+    if(getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
   }
